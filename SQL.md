@@ -15,4 +15,10 @@ DDL (Data Definition Language)数据定义语言，DDL 语句用于定义和修�
 - DROP: 删除数据库对象。
 - TRUNCATE: 快速删除表中的所有数据，并重置表结构，但保留表本身。
 ## 5. DCL
-Data Control Language，即数据控制语言，
+Data Control Language，即数据控制语言，管理用户（创建、删除）、分配权限（授予、回收）、控制数据库对象（表、视图、存储过程等）的访问级别<br>
+常用DCL命令:
+- GRANT	授予用户对数据库对象的权限
+- REVOKE	收回已经授予的权限
+- CREATE USER	创建数据库用户
+- DROP USER	删除数据库用户
+- ALTER USER	修改用户属性（如密码）
