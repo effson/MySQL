@@ -32,5 +32,4 @@ MySQL 的 Server 层 是 MySQL 体系结构中的核心部分，主要负责解�
 - 元数据缓存（表结构、列信息等）。
 - 预处理语句缓存（Prepared Statements）
 
-- 
 ## 3. 引擎层
