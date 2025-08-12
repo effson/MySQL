@@ -43,7 +43,10 @@ CREATE TABLE IF NOT EXISTS  `employees` (
 ### 2.2  删除表
 ```SQL
 DROP TABLE `table_name`;
-DROP FROM `table_name`;
+DROP TABLE IF EXISTS `table_name`;
+```
+```SQL
+DELETE FROM `table_name`;
 ```
 DDL语言，不能回滚，同时删除数据和表
 ### 2.3 清空数据表
