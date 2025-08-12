@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS  `employees` (
 ### 2.2  删除表
 ```SQL
 DROP TABLE `table_name`;
+DROP FROM `table_name`;
 ```
 DDL语言，不能回滚，同时删除数据和表
 ### 2.3 清空数据表
@@ -64,3 +65,17 @@ DELETE TABLE table_name;
 #### 锁定
 - DELETE: 默认是行级锁
 - TRUNCATE: 是表级锁
+## 3. 增
+```SQL
+INSERT INTO `table_name` (`field1`, `field2`, ...,`fieldn`) VALUES(value1, value2, ..., valuen);
+```
+## 4. 改
+```SQL
+UPDATE `table_name` SET field1=value1, field2=value2, ...,fieldn=valuen;
+```
+```SQL
+UPDATE `employees` SET `name` = '张三', age = 30 WHERE id = 1;
+```
+```SQL
+UPDATE `employees` SET `name` = '张三', `age` = `age` + 1 WHERE id = 2;
+```
