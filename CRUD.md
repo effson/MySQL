@@ -33,5 +33,24 @@ CREATE TABLE IF NOT EXISTS  `employees` (
 ```
 ### 2.2  删除表
 ```SQL
-DROP TABLE table_name;
+DROP TABLE `table_name`;
 ```
+### 2.3 清空数据表
+```SQL
+TRUNCATE TABLE table_name;
+```
+```SQL
+DELETE TABLE table_name;
+```
+#### 执行方式与速度
+- DELETE: 属于 DML (数据操作语言)。它会逐行删除数据，并且会为每一行记录删除操作，这个过程相对较慢
+- TRUNCATE: 属于 DDL (数据定义语言)。它会先删除整个表，然后重建一个一模一样的空表。这个过程非常快，因为它不涉及逐行删除<br>
+#### 事务与回滚
+- DELETE支持事务,可以通过 ROLLBACK 命令撤销;
+- TRUNCATE不支持事务
+#### 自增列 (AUTO_INCREMENT)
+- DELETE: 删除数据后，自增列的计数器不会重置。新插入的数据会接着之前的计数继续递增。
+- TRUNCATE: 删除数据后，自增列的计数器会重置为初始值（通常是 1）
+#### 锁定
+- DELETE: 默认是行级锁
+- TRUNCATE: 是表级锁
