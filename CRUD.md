@@ -32,3 +32,6 @@ CREATE TABLE IF NOT EXISTS  `employees` (
 )ENGINE=innodb DEFAULT CHARSET=utf8mb4 COMMENT='课程表';
 ```
 ### 2.2  删除表
+```SQL
+DROP TABLE table_name;
+```
