@@ -31,6 +31,15 @@ CREATE TABLE IF NOT EXISTS  `employees` (
     PRIMARY KEY (`id`)
 )ENGINE=innodb DEFAULT CHARSET=utf8mb4 COMMENT='课程表';
 ```
+#### constraints（约束）
+是用来限制表中的数据，以确保数据的准确性和完整性
+- NOT NULL 约束强制一列中的数据不能为 NULL（空值）
+- UNIQUE 约束确保一列中的所有值都是唯一的
+- PRIMARY KEY（主键）是表中唯一标识每一行的列或一组列。它实际上是 NOT NULL 和 UNIQUE 的组合
+- FOREIGN KEY（外键）是用于在两个表之间建立链接的键。它指向另一个表中的 PRIMARY KEY
+- DEFAULT 约束用于为一列设置默认值。如果 INSERT 语句没有为该列提供值，则会自动使用默认值
+- CHECK 约束用于确保一列中的值满足特定的条件：age INT CHECK (age >= 18)
+- AUTO_INCREMENT（或 SQL Server 中的 IDENTITY）约束会自动为新插入的行生成一个唯一的、递增的整数值
 ### 2.2  删除表
 ```SQL
 DROP TABLE `table_name`;
