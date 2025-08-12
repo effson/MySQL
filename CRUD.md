@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS  `employees` (
 ```SQL
 DROP TABLE `table_name`;
 ```
-DDL语言，不能回滚
+DDL语言，不能回滚，同时删除数据和表
 ### 2.3 清空数据表
 ```SQL
 TRUNCATE TABLE table_name;
