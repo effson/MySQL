@@ -25,4 +25,5 @@ Innodb 引擎会持续监控对表索引的访问模式。
 #### 2.1.2.3 LRU（Least Recently Used）淘汰算法
 - LRU 列表分成了两个子列表：新列表（New sublist）和老列表（Old sublist）。新读入的数据页不会直接放在列表头部（新列表），而是先放在老列表的头部。只有当一个数据页在老列表中被再次访问时，它才会被移动到新列表的头部
 
-<img width="357" height="545" alt="image" src="https://github.com/user-attachments/assets/5e97ec29-e045-4131-ba9b-2a46653e7ddc" />
+<img width="365" height="610" alt="image" src="https://github.com/user-attachments/assets/3ca6bb06-8dda-4666-8835-98ab5963b12d" />
+
