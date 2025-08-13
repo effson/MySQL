@@ -27,3 +27,14 @@ Innodb 引擎会持续监控对表索引的访问模式。
 
 <img width="365" height="610" alt="image" src="https://github.com/user-attachments/assets/3ca6bb06-8dda-4666-8835-98ab5963b12d" />
 
+## 2.2 Change BUffer
+### 2.2.1 定义与作用
+- Change Buffer 是 InnoDB Buffer Pool 里的一个特殊区域，用来<mark>缓存对二级索引页（secondary index page）</mark>的修改操作（插入、更新、删除），而不是立即去磁盘随机写。
+- 主要目的：减少随机 I/O，把多个分散的修改合并成顺序 I/O，提高性能。
+- 主键索引（聚簇索引）不使用 Change Buffer，因为它访问频率高且会被频繁缓存。
+### 2.2.2 工作原理
+#### 2.2.2.1 写入流程
+当需要修改一个不在 Buffer Pool 的二级索引页：
+- 不直接从磁盘读取该页到内存
+- 把变更记录插入到 Change Buffer<br>
+后台线程或读请求需要该页时，才会触发 Merge（合并）：
