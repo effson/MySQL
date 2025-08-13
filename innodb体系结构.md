@@ -13,5 +13,16 @@ Innodb 引擎会持续监控对表索引的访问模式。
 # 2. 内存结构（Memory Structures）
 ## 2.1 Buffer Pool
 ### 2.1.1 作用
-缓存数据页（Data Page）、索引页（Index Page）、Undo 页等，减少磁盘 I/O
-### 2.1.2 特点
+主要作用是缓存表数据和索引数据（聚集索引B+树缓存在Buffer Pool），MySQL 需要读取或写入数据时，它不会直接操作磁盘上的文件，而是先将数据从磁盘加载到内存中的 Buffer Pool。后续对相同数据的访问，就可以直接在内存中进行，从而避免了耗时的磁盘 I/O 操作，极大地提高了数据库的性能
+### 2.1.2 工作原理
+#### 2.1.2.1 数据读取
+当 Innodb 需要读取某个数据页（例如，执行 SELECT 查询）时，它会首先检查 Buffer Pool 中是否已经存在这个数据页
+- 命中（Hit）: 如果数据页已经在 Buffer Pool 中，Innodb 会直接从内存中读取，这非常快
+- 未命中（Miss）: 如果数据页不在 Buffer Pool 中，Innodb 会从磁盘加载这个数据页到 Buffer Pool 的一个空闲页中。如果 Buffer Pool 已满，它会使用一种淘汰算法（通常是改进的 LRU 算法）来淘汰掉一个最不常用或最老的数据页，然后将新的数据页加载进来
+#### 2.1.2.2 数据写入
+当 Innodb 需要修改某个数据页时，它会先在 Buffer Pool 中找到这个数据页，并对其进行修改。此时，这个数据页被称为“脏页”（dirty page），因为它在内存中的内容与磁盘上的内容不一致
+- 异步刷盘: 为了不阻塞当前的写入操作，Innodb 不会立即将脏页写回磁盘。相反，它会将这些脏页标记出来，并在后台的某个时机（例如，Buffer Pool 空间不足、Innodb 引擎关闭、或者定期刷盘机制）异步地将它们刷回磁盘，以保证数据的一致性和持久性
+#### 2.1.2.3 LRU（Least Recently Used）淘汰算法
+- LRU 列表分成了两个子列表：新列表（New sublist）和老列表（Old sublist）。新读入的数据页不会直接放在列表头部（新列表），而是先放在老列表的头部。只有当一个数据页在老列表中被再次访问时，它才会被移动到新列表的头部
+
+<img width="357" height="545" alt="image" src="https://github.com/user-attachments/assets/5e97ec29-e045-4131-ba9b-2a46653e7ddc" />
