@@ -37,4 +37,11 @@ Innodb 引擎会持续监控对表索引的访问模式。
 当需要修改一个不在 Buffer Pool 的二级索引页：
 - 不直接从磁盘读取该页到内存
 - 把变更记录插入到 Change Buffer<br>
+
 后台线程或读请求需要该页时，才会触发 Merge（合并）：
+- 先把磁盘页加载到 Buffer Pool
+- 再将 Change Buffer 里的变更应用到该页<br>
+
+#### 2.2.2.2 读取流程
+如果读取的二级索引页有变更在 Change Buffer 中：
+- 读取磁盘页 → 应用 Change Buffer 里的变更 → 返回最新数据
