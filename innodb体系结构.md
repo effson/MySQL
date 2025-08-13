@@ -1,4 +1,5 @@
 <img width="1171" height="648" alt="image" src="https://github.com/user-attachments/assets/214ff604-2c56-4e76-a100-eba3dca80640" />
+
 # 1.  Adaptive Hash Index（自适应哈希索引）
 ## 1.1 介绍
 Innodb 自适应哈希索引（Adaptive Hash Index, AHI）是 MySQL Innodb 存储引擎的一个独特功能，旨在提高查询性能。它是一种内部机制，由 Innodb 引擎自动创建和管理
