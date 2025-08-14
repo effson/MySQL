@@ -45,3 +45,12 @@ Innodb 引擎会持续监控对表索引的访问模式。
 #### 2.2.2.2 读取流程
 如果读取的二级索引页有变更在 Change Buffer 中：
 - 读取磁盘页 → 应用 Change Buffer 里的变更 → 返回最新数据
+## 2.3 数据安全性
+Buffer Pool 和 Change Buffer 的内容掉电会丢，但“不会丢数据”靠的是 WAL（Redo Log）、双写（Doublewrite）、校验与崩溃恢复机制；
+### 2.3.1 WAL（Write-Ahead Logging）/ Redo Log
+- 事务修改页时只改 Buffer Pool（脏页）+ 追加写 redo（顺序写，扇出小）
+- 提交点（COMMIT）：根据 innodb_flush_log_at_trx_commit 决定是否把 redo 持久化到磁盘（fsync）
+- 掉电后：重启执行 crash recovery，从最后检查点的 LSN （Log Sequence Number，日志序列号）开始把 redo “重做”到各数据页；只要提交之前的 redo 已经 fsync，下次启动就能把数据页补齐
+### 2.3.2 Doublewrite（双写）保护“撕裂页”
+InnoDB 落盘脏页前，先把完整页（16KB）写到 doublewrite 区（一块连续空间），fsync 后再写到真正的数据文件
+若掉电导致数据文件只写入了“半页”或扇区撕裂，重启可用 doublewrite 中的完整副本覆盖，避免页级损坏
