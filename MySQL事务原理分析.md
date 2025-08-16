@@ -137,4 +137,28 @@ Doublewrite Buffer：
 - REPEATABLE READ (RR), 事务第一次执行快照读时生成 Read View，整个事务期间复用这个视图。事务期间读到的数据始终一致，即使别的事务提交了新版本，也看不到 → 避免不可重复读
 
 ## 5 锁
-### 5.1 
+### 5.1 全局锁（Global Lock）
+#### FLUSH TABLES WITH READ LOCK (FTWRL)
+- 锁住整个实例，所有库、所有表只能读，不能写。
+- 用于全库备份（逻辑备份时保证一致性）
+
+### 5.2 数据库/表级锁
+#### 表锁（Table Lock）
+- LOCK TABLES ... READ/WRITE
+- 整张表加锁。读锁可以并发读，写锁独占
+- 开销小、粒度大，适合 MyISAM 或管理操作
+
+#### 元数据锁（Metadata Lock, MDL）
+- 自动加锁，不需要手动操作
+- 作用：保证 DML 和 DDL 的并发安全
+
+#### 意向锁（Intention Lock）
+快速判断表里是否有行锁冲突，提高加锁效率
+
+### 5.3 行级锁（Row Lock, InnoDB 核心）
+InnoDB 基于索引来加行锁，若条件不走索引，可能升级为表锁。
+#### 记录锁（Record Lock）
+锁定索引上的某一条记录,如：SELECT ... FOR UPDATE WHERE id=10; → 锁住 id=10 这一行。
+- 共享锁（S Lock）：允许事务读取一行，阻止其他事务修改。
+- 排他锁（X Lock）：允许事务修改/删除一行，阻止其他事务读写。
+#### 间隙锁（Gap Lock）
