@@ -1,4 +1,8 @@
 ## 1.MySQL配置
+```bash
+root@worker02:/home/jeff# mysql -ugmt -p'StrongPass#2025' -h127.0.0.1 -P3306
+root@worker02:/home/jeff# mysql -uroot -p'RootStrong#2025'
+```
 ### 添加配置
 ```bash
 root@worker02:/home/jeff# vim /etc/mysql/mysql.conf.d/mysqld.cnf
