@@ -1,4 +1,5 @@
-## MySQL配置
+## 1.MySQL配置
+### 添加配置
 ```bash
 root@worker02:/home/jeff# vim /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
@@ -8,6 +9,13 @@ server-id                       = 1
 log_bin                         = mysql-bin
 binlog_format                   = ROW
 ```
+### 添加用户账户
+```mysql
+CREATE USER IF NOT EXISTS 'gmt'@'127.0.0.1'
+  IDENTIFIED WITH mysql_native_password BY 'StrongPass#2025';
+```
+
+
 
 ## go_mysql_transfer
 
